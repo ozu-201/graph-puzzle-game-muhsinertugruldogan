@@ -1,9 +1,9 @@
 //
 // Created by Olcay Taner YILDIZ on 8.05.2023.
 //
-
-#ifndef DATASTRUCTURES_CPP_GRAPH_H
-#define DATASTRUCTURES_CPP_GRAPH_H
+//
+//#ifndef DATASTRUCTURES_CPP_GRAPH_H
+//#define DATASTRUCTURES_CPP_GRAPH_H
 
 
 #include "../../General/AbstractGraph.h"
@@ -32,4 +32,4 @@ namespace array{
 }
 
 
-#endif //DATASTRUCTURES_CPP_GRAPH_H
+//#endif //DATASTRUCTURES_CPP_GRAPH_H

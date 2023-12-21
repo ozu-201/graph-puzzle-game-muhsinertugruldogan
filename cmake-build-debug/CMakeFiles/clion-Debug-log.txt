@@ -1,7 +1,4 @@
-"C:\Program Files\JetBrains\CLion 2023.1.4\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" -S C:\Users\TEMP.OZUN.000\Documents\GitHub\graph-puzzle-game-muhsinertugruldogan\src -B C:\Users\TEMP.OZUN.000\Documents\GitHub\graph-puzzle-game-muhsinertugruldogan\src\cmake-build-debug
+"C:\Program Files\JetBrains\CLion 2023.1.4\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" -S C:\Users\TEMP.OZUN.000\CLionProjects\graph-puzzle-game-muhsinertugruldogan -B C:\Users\TEMP.OZUN.000\CLionProjects\graph-puzzle-game-muhsinertugruldogan\cmake-build-debug
 -- Configuring done
-CMake Error at CMakeLists.txt:5 (add_executable):
-  No SOURCES given to target: Main.cpp
-
-
-CMake Generate step failed.  Build files cannot be regenerated correctly.
+-- Generating done
+-- Build files have been written to: C:/Users/TEMP.OZUN.000/CLionProjects/graph-puzzle-game-muhsinertugruldogan/cmake-build-debug

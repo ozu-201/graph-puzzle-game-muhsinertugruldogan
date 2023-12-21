@@ -5,12 +5,29 @@
 
 
 #include <iostream>
-#include <string>
-#include "./Array/Graph/Graph.h"
-using namespace std;
 
+#include "Array/Graph/Graph.h"
+#include <bits/stdc++.h>
+using namespace array;
+//using namespace std;
 int main() {
 
-    cout << 5;
+    std::ifstream in("C:\\Users\\TEMP.OZUN.000\\Desktop\\turkish-dictionary.txt");
+    array::Graph g = array::Graph(100);
+    auto count = 0;
+    while(!in.eof()) {
+
+        std::string word;
+
+        getline(in,word);
+
+        std::cout << word << std::endl;
+        count++;
+    }
+
+    std::cout << count << std::endl;
+
+//    auto g = array::Graph(5);
+
     return 0;
 }

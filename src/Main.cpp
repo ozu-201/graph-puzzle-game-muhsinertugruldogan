@@ -1,20 +1,29 @@
-//
-// Created by ed020606 on 12/14/2023.
-//
-
+/**
+ * Author: Muhsin Ertugrul Dogan.
+ * It is my word puzzle game.
+ * You can play the game in Main.cpp file.
+ *
+ * I have helper functions and my main breadth first search functions. I will explain them later.
+ *
+ *
+ */
 
 
 #include <iostream>
-
+/**Basically, I use array representation of graph. */
 #include "Array/Graph/Graph.h"
 #include "Array/Queue.h"
 #include <bits/stdc++.h>
 #include <fstream>
-#include <iostream>
 #include <string>
 using namespace array;
 using namespace std;
 
+
+/**
+ * One word difference is crucial for our game.
+ * This method controls the one word difference between the words in the dictionary.
+ */
 bool isOneWordDifference(const string& w1, const string& w2) {
     if(w1.length() != w2.length()) {
         return false;
@@ -28,6 +37,10 @@ bool isOneWordDifference(const string& w1, const string& w2) {
     return diff == 1;
 }
 
+/**
+ * This method constructs the our word graph. We check the one word difference condition.
+ * If condition is true, we add an edge between these two word.
+ */
 Graph constructGraph(const vector<string>& vector) {
     int sz = vector.size();
     auto graph = Graph(sz);
@@ -39,10 +52,54 @@ Graph constructGraph(const vector<string>& vector) {
             }
         }
     }
-
     return graph;
 }
 
+/**
+ * We search the words according to their indexes in the word list.
+ * So, we should know the index value of the word. This method checks the
+ * index and returns the index value. If the word is not in the list,
+ * this method returns -1.
+ */
+int searchIndex(const string& w, const vector<string>& words) {
+    int index = 0;
+    for(const auto& item : words) {
+        if(item == w)
+            return index;
+        index++;
+    }
+
+    return -1;
+}
+
+/**
+ * This method helps us to read file and collect the words are desired length.
+ * It returns the list of the words.
+ * In addition, our dictionary is in the cmake-build-debug directory. If you want to
+ * read another file from another location, you can change the directory.
+ */
+vector<string> readFile(const string& directory, int size) {
+    ifstream in(directory);
+    vector<string> words{};
+    if(in.is_open()) {
+        string line;
+        while(getline(in,line)) {
+            if(line.length() == size) {
+                words.push_back(line);
+            }
+        }
+        in.close();
+    } else {
+        cout << "File cannot open" << endl;
+    }
+    return words;
+}
+
+/**
+ * BFS method is our main search method.
+ * It use the breath first search. I change the structure of BFS.
+ * BHS search the all neighbor nodes of the start node.
+ */
 void BFS(Graph& graph, const vector<string> words, int start, int finish) {
     int vertexCount = words.size();
     vector<bool> visit(vertexCount, false);
@@ -55,6 +112,7 @@ void BFS(Graph& graph, const vector<string> words, int start, int finish) {
 
     while(!q.isEmpty()) {
         int currentNode = q.dequeue().getData();
+        //If you want oto see all visited nodes when we are going to target node, uncomment that line.
 //        cout << currentNode << " " << words[currentNode] << endl;
         if(currentNode == finish) {
             cout << "Shortest path: " << endl;
@@ -74,7 +132,6 @@ void BFS(Graph& graph, const vector<string> words, int start, int finish) {
                 if (i != shortestPath.size() - 1) {
                     cout << " -> ";
                 }
-
             }
             cout << endl;
             return;
@@ -90,46 +147,28 @@ void BFS(Graph& graph, const vector<string> words, int start, int finish) {
     cout << "Can not reach the target word!" << endl;
 }
 
-int searchIndex(const string& w, const vector<string>& words) {
-    int index = 0;
-    for(const auto& item : words) {
-        if(item == w)
-            return index;
-        index++;
-    }
-
-    return -1;
-}
-
-vector<string> readFile(const string& directory, int size) {
-    ifstream in(directory);
-    vector<string> words{};
-    if(in.is_open()) {
-        string line;
-        while(getline(in,line)) {
-            if(line.length() == size) {
-                words.push_back(line);
-            }
-        }
-        in.close();
-    } else {
-        cout << "File cannot open" << endl;
-    }
-    return words;
-}
 
 
 int main() {
 
+    /**
+     * You can enter the directory of dictionary and word size here.
+     */
     auto words = readFile("english-dictionary.txt", 4);
     auto wordGraph = constructGraph(words);
 
+    /**
+     * Enter the start and target word.
+     */
     string startWord = "aare";
     string targetWord = "noel";
 
     int startIndex = searchIndex(startWord,words);
     int targetIndex = searchIndex(targetWord,words);
 
+    /**
+     * Shortest path appear in console after that line executed.
+     */
     BFS(wordGraph,words,startIndex,targetIndex);
 
     return 0;

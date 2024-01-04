@@ -37,19 +37,6 @@ namespace array{
         edges[from][to] = weight;
     }
 
-    void Graph::connectedComponentDisjointSet() {
-        DisjointSet sets = DisjointSet(vertexCount);
-        for (int fromNode = 0; fromNode < vertexCount; fromNode++){
-            for (int toNode = 0; toNode < vertexCount; toNode++){
-                if (edges[fromNode][toNode] > 0){
-                    if (sets.findSetRecursive(fromNode) != sets.findSetRecursive(toNode)){
-                        sets.unionOfSets(fromNode, toNode);
-                    }
-                }
-            }
-        }
-    }
-
     void Graph::depthFirstSearch(bool *visited, int fromNode) {
         for (int toNode = 0; toNode < vertexCount; toNode++){
             if (edges[fromNode][toNode] > 0){
@@ -101,10 +88,13 @@ namespace array{
         return shortestPaths;
     }
 
+    /**
+     * To implement my main BFS method, I need to read the edges array from graph class.
+     * I create this method to read edges in public scope.
+     */
 
     int** Graph::getEdges() {
         return edges;
     }
-
 
 }

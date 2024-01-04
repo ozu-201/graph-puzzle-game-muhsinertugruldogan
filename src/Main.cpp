@@ -10,12 +10,14 @@
 
 
 #include <iostream>
-/**Basically, I use array representation of graph. */
+/**Basically, I use array representation of graph.
+ * */
 #include "Array/Graph/Graph.h"
 #include "Array/Queue.h"
 #include <bits/stdc++.h>
 #include <fstream>
 #include <string>
+
 using namespace array;
 using namespace std;
 
@@ -24,13 +26,13 @@ using namespace std;
  * One word difference is crucial for our game.
  * This method controls the one word difference between the words in the dictionary.
  */
-bool isOneWordDifference(const string& w1, const string& w2) {
-    if(w1.length() != w2.length()) {
+bool isOneWordDifference(const string &w1, const string &w2) {
+    if (w1.length() != w2.length()) {
         return false;
     }
     int diff = 0;
-    for(int i = 0; i < w1.length(); i++) {
-        if(w1[i] != w2[i]) {
+    for (int i = 0; i < w1.length(); i++) {
+        if (w1[i] != w2[i]) {
             diff++;
         }
     }
@@ -41,15 +43,18 @@ bool isOneWordDifference(const string& w1, const string& w2) {
  * This method constructs the our word graph. We check the one word difference condition.
  * If condition is true, we add an edge between these two word.
  */
-Graph constructGraph(const vector<string>& vector) {
+Graph constructGraph(const vector<string> &vector) {
     int sz = vector.size();
     auto graph = Graph(sz);
 
-    for(int i = 0; i < sz; i++) {
-        for(int j = 0; j < sz; j++) {
-            if(isOneWordDifference(vector[i],vector[j])) {
-                graph.addEdge(i,j);
+    for (int i = 0; i < sz; i++) {
+        for (int j = 0; j < sz; j++) {
+            if (i != j) {
+                if (isOneWordDifference(vector[i], vector[j])) {
+                    graph.addEdge(i, j);
+                }
             }
+
         }
     }
     return graph;
@@ -61,10 +66,10 @@ Graph constructGraph(const vector<string>& vector) {
  * index and returns the index value. If the word is not in the list,
  * this method returns -1.
  */
-int searchIndex(const string& w, const vector<string>& words) {
+int searchIndex(const string &w, const vector<string> &words) {
     int index = 0;
-    for(const auto& item : words) {
-        if(item == w)
+    for (const auto &item: words) {
+        if (item == w)
             return index;
         index++;
     }
@@ -78,14 +83,18 @@ int searchIndex(const string& w, const vector<string>& words) {
  * In addition, our dictionary is in the cmake-build-debug directory. If you want to
  * read another file from another location, you can change the directory.
  */
-vector<string> readFile(const string& directory, int size) {
+vector<string> readFile(const string &directory, int size) {
     ifstream in(directory);
     vector<string> words{};
-    if(in.is_open()) {
+    if (in.is_open()) {
         string line;
-        while(getline(in,line)) {
-            if(line.length() == size) {
+        while (getline(in, line)) {
+            if (line.length() == size) {
                 words.push_back(line);
+                /**
+                 * If you want to see all words with desired size in dictionary, you can uncomment that line.
+                 */
+//                cout << line << endl;
             }
         }
         in.close();
@@ -100,7 +109,10 @@ vector<string> readFile(const string& directory, int size) {
  * It use the breath first search. I change the structure of BFS.
  * BHS search the all neighbor nodes of the start node.
  */
-void BFS(Graph& graph, const vector<string> words, int start, int finish) {
+void BFS(Graph &graph, const vector<string> words, int start, int finish) {
+    cout << "Start word: " << words[start] << endl;
+    cout << "Target word: " << words[finish] << endl;
+
     int vertexCount = words.size();
     vector<bool> visit(vertexCount, false);
 
@@ -108,13 +120,16 @@ void BFS(Graph& graph, const vector<string> words, int start, int finish) {
     q.enqueue(Element(start));
     visit[start] = true;
 
-    vector<int> prev(vertexCount,-1);
+    /**
+     * I create a prev vector to store the previous visited nodes.
+     */
+    vector<int> prev(vertexCount, -1);
 
-    while(!q.isEmpty()) {
+    while (!q.isEmpty()) {
         int currentNode = q.dequeue().getData();
         //If you want oto see all visited nodes when we are going to target node, uncomment that line.
 //        cout << currentNode << " " << words[currentNode] << endl;
-        if(currentNode == finish) {
+        if (currentNode == finish) {
             cout << "Shortest path: " << endl;
 
             vector<int> shortestPath;
@@ -124,7 +139,9 @@ void BFS(Graph& graph, const vector<string> words, int start, int finish) {
                 shortestPath.push_back(index);
                 index = prev[index];
             }
-
+            /**
+             * I use the built in algorithm reverse to reverse the shortest path vector.
+             */
             reverse(shortestPath.begin(), shortestPath.end());
 
             for (int i = 0; i < shortestPath.size(); i++) {
@@ -136,17 +153,17 @@ void BFS(Graph& graph, const vector<string> words, int start, int finish) {
             cout << endl;
             return;
         }
-        for(int neighbor = 0; neighbor < vertexCount; ++neighbor) {
-            if(graph.getEdges()[currentNode][neighbor] && !visit[neighbor]) {
-                visit[neighbor] = true;
-                q.enqueue(Element(neighbor));
-                prev[neighbor] = currentNode;
+        for (int neighborNode = 0; neighborNode < vertexCount; ++neighborNode) {
+            if (graph.getEdges()[currentNode][neighborNode] && !visit[neighborNode]) {
+                visit[neighborNode] = true;
+                q.enqueue(Element(neighborNode));
+                prev[neighborNode] = currentNode;
             }
         }
     }
+
     cout << "Can not reach the target word!" << endl;
 }
-
 
 
 int main() {
@@ -161,15 +178,16 @@ int main() {
      * Enter the start and target word.
      */
     string startWord = "aare";
-    string targetWord = "noel";
+    string targetWord = "nome";
 
-    int startIndex = searchIndex(startWord,words);
-    int targetIndex = searchIndex(targetWord,words);
+    int startIndex = searchIndex(startWord, words);
+    int targetIndex = searchIndex(targetWord, words);
 
     /**
      * Shortest path appear in console after that line executed.
      */
-    BFS(wordGraph,words,startIndex,targetIndex);
+    BFS(wordGraph, words, startIndex, targetIndex);
 
     return 0;
 }
+

@@ -55,39 +55,38 @@ void BFS(Graph& graph, const vector<string> words, int start, int finish) {
 
     while(!q.isEmpty()) {
         int currentNode = q.dequeue().getData();
-
+//        cout << currentNode << " " << words[currentNode] << endl;
         if(currentNode == finish) {
             cout << "Shortest path: " << endl;
 
             vector<int> shortestPath;
             int index = finish;
 
-            while(index != -1) {
+            while (index != -1) {
                 shortestPath.push_back(index);
                 index = prev[index];
             }
 
             reverse(shortestPath.begin(), shortestPath.end());
 
-            for(auto i = 0; i < shortestPath.size(); ++i) {
+            for (int i = 0; i < shortestPath.size(); i++) {
                 cout << words[shortestPath[i]];
-                if(i != shortestPath.size()-1) {
+                if (i != shortestPath.size() - 1) {
                     cout << " -> ";
                 }
-                cout << endl;
-                return;
-            }
 
-            for(int neighbor = 0; neighbor < vertexCount; ++neighbor) {
-                if(graph.getEdges()[currentNode][neighbor] && !visit[neighbor]) {
-                    visit[neighbor] = true;
-                    q.enqueue(Element(neighbor));
-                    prev[neighbor] = currentNode;
-                }
+            }
+            cout << endl;
+            return;
+        }
+        for(int neighbor = 0; neighbor < vertexCount; ++neighbor) {
+            if(graph.getEdges()[currentNode][neighbor] && !visit[neighbor]) {
+                visit[neighbor] = true;
+                q.enqueue(Element(neighbor));
+                prev[neighbor] = currentNode;
             }
         }
     }
-
     cout << "Can not reach the target word!" << endl;
 }
 
@@ -122,6 +121,16 @@ vector<string> readFile(const string& directory, int size) {
 
 int main() {
 
+    auto words = readFile("english-dictionary.txt", 4);
+    auto wordGraph = constructGraph(words);
+
+    string startWord = "aare";
+    string targetWord = "noel";
+
+    int startIndex = searchIndex(startWord,words);
+    int targetIndex = searchIndex(targetWord,words);
+
+    BFS(wordGraph,words,startIndex,targetIndex);
 
     return 0;
 }

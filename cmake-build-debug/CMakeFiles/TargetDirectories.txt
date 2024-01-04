@@ -1,0 +1,4 @@
+C:/Users/TEMP.OZUN.000/Documents/GitHub/graph-puzzle-game-muhsinertugruldogan/cmake-build-debug/CMakeFiles/graph-puzzle-game-muhsinertugruldogan.dir
+C:/Users/TEMP.OZUN.000/Documents/GitHub/graph-puzzle-game-muhsinertugruldogan/cmake-build-debug/CMakeFiles/Main.dir
+C:/Users/TEMP.OZUN.000/Documents/GitHub/graph-puzzle-game-muhsinertugruldogan/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/TEMP.OZUN.000/Documents/GitHub/graph-puzzle-game-muhsinertugruldogan/cmake-build-debug/CMakeFiles/rebuild_cache.dir
